@@ -32,6 +32,8 @@ If the session is old, LF0 retrieves session details from sessionTable, collects
 LF2 sends restaurant recommendations to users via email using SES.
 Session details such as session ID, cuisine, and email are stored in sessionTable for future reference.
 5. Frontend: Access the frontend application hosted on the provided AWS S3 bucket URL.
+6. Extra Credit - Cookies for Session Management:
+Use cookies to store user data and check if the session is new or old. This enhances session management and provides a seamless user experience.
 
 # Contributors
 1. Rohan Chopra
