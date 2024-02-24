@@ -1,4 +1,39 @@
 var checkout = {};
+ 
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    .replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0, 
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+function setCookie(cookieName,cookieValue,expiration){
+    const d = new Date()
+    d.setTime(d.getTime() + (expiration * 24 * 60 * 60 * 1000));
+    const expire = "expires=" + d.toUTCString();
+    document.cookie = `${cookieName}=${cookieValue}; ${expire}; path=/`;
+}
+
+function getCookie(cookieName){
+    const name = `${cookieName}=`;
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const a = decodedCookie.split(';');
+
+    for(let i=0; i<a.length;i++){
+      let cookie = a[i].trim();
+      if(cookie.indexOf(name)===0){
+        return cookie.substring(name.length,cookie.length)
+      }
+    }
+}
+
+var sessionId = getCookie("sessionID")
+if(sessionId == null){
+  sessionId = uuidv4()
+  setCookie("sessionID",sessionId,10)
+}
 
 $(document).ready(function() {
   var $messages = $('.messages-content'),
@@ -29,6 +64,7 @@ $(document).ready(function() {
     // params, body, additionalParams
     return sdk.chatbotPost({}, {
       messages: [{
+        id : sessionId,
         type: 'unstructured',
         unstructured: {
           text: message
