@@ -3,14 +3,14 @@ Description: Cloud Assignment Photo Album Web Application Template
 
 Resources:
 
-  ProcessingLambdaPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: 'lambda:InvokeFunction'
-      FunctionName: !Ref IndexPhotosLambdaFunction
-      Principal: s3.amazonaws.com
-      SourceArn: !Sub 'arn:aws:s3:::${ImageBucket}'
-      SourceAccount: !Ref AWS::AccountId
+  # ProcessingLambdaPermission:
+  #   Type: AWS::Lambda::Permission
+  #   Properties:
+  #     Action: 'lambda:InvokeFunction'
+  #     FunctionName: !Ref IndexPhotosLambdaFunction
+  #     Principal: s3.amazonaws.com
+  #     SourceArn: !Sub 'arn:aws:s3:::${ImageBucket}'
+  #     SourceAccount: !Ref AWS::AccountId
 
   #Image S3 Bucket Policy
   ImageBucketPolicy:
@@ -33,14 +33,14 @@ Resources:
   # S3 Bucket
   ImageBucket:
     Type: AWS::S3::Bucket
-    DependsOn:
-      - ProcessingLambdaPermission
+    # DependsOn:
+    #   - ProcessingLambdaPermission
     Properties:
       BucketName: "cloud-assignment-image-bucket-rc4920"
-      NotificationConfiguration: 
-        LambdaConfigurations:
-          - Event: s3:ObjectCreated:*
-            Function: !GetAtt IndexPhotosLambdaFunction.Arn
+      # NotificationConfiguration: 
+      #   LambdaConfigurations:
+      #     - Event: s3:ObjectCreated:*
+      #       Function: !GetAtt IndexPhotosLambdaFunction.Arn
       PublicAccessBlockConfiguration:
         BlockPublicAcls: False
         BlockPublicPolicy: False
