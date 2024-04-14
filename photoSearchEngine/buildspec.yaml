@@ -18,16 +18,16 @@ phases:
       - ls
       - pwd
       - echo "Building Lambda function 1..."
-      - cd custom_lambdas/
+      - cd photoSearchEngine/custom_lambdas/
       - pip install -r requirements.txt -t ./
-      - zip -r ../index-photos.zip *
-      - zip -r ../search-photos.zip *
-      - aws s3 cp ../index-photos.zip s3://$LAMBDA_BUCKET --output=text
-      - aws s3 cp ../search-photos.zip s3://$LAMBDA_BUCKET --output=text
+      - zip -r ../../index-photos.zip *
+      - zip -r ../../search-photos.zip *
+      - aws s3 cp ../../index-photos.zip s3://$LAMBDA_BUCKET --output=text
+      - aws s3 cp ../../search-photos.zip s3://$LAMBDA_BUCKET --output=text
 
 artifacts:
   files:
     - index-photos.zip
     - search-photos.zip
-    - scripts/lambda.yaml
-    - scripts/buckets.yaml
+    - photoSearchEngine/scripts/lambda.yaml
+    - photoSearchEngine/scripts/buckets.yaml
