@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Cloud Assignment Photo Album Web Application Template
+
+Resources:
+  # IAM Role for Lambda Functions
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Description: Lambda execution role for all lambda functions
+    Properties:
+      RoleName: cloud-assignment3-execution-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [lambda.amazonaws.com, apigateway.amazonaws.com]
+            Action: ['sts:AssumeRole']
+      Policies:
+        - PolicyName: LambdaExecutionRolePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ['logs:*', 'es:*', 's3:*', 'execute-api:*', 'secretsmanager:*', 'rekognition:*', 'lambda:*']
+                Resource: '*'
+
+  # Lambda Functions
+  IndexPhotosLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Architectures: ['x86_64']
+      Timeout: 60
+      FunctionName: "index-photos-test"
+      Runtime: "python3.12"
+      Handler: "index-photos.lambda_handler"
+      Code:
+        S3Bucket: "cloud-assignment3-code-bucket"
+        S3Key: "index-photos.zip"
+      Role: !GetAtt LambdaExecutionRole.Arn
+
+  SearchPhotosLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Architectures: ['x86_64']
+      Timeout: 60
+      FunctionName: "search-photos-test"
+      Runtime: "python3.12"
+      Handler: "search-photos.lambda_handler"
+      Code:
+        S3Bucket: "cloud-assignment3-code-bucket"
+        S3Key: "search-photos.zip"
+      Role: !GetAtt LambdaExecutionRole.Arn
+
+Outputs:
+  IndexPhotosLambdaFunctionArn:
+    Value: !GetAtt IndexPhotosLambdaFunction.Arn
+  SearchPhotosLambdaFunction11Arn:
+    Value: !GetAtt SearchPhotosLambdaFunction.Arn
