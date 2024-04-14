@@ -2,6 +2,57 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: Cloud Assignment Photo Album Web Application Template
 
 Resources:
+
+  ProcessingLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref IndexPhotosLambdaFunction
+      Principal: s3.amazonaws.com
+      SourceArn: !Sub 'arn:aws:s3:::${ImageBucket}'
+      SourceAccount: !Ref AWS::AccountId
+
+  #Image S3 Bucket Policy
+  ImageBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ImageBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref ImageBucket
+                - /*
+            Principal: '*'
+
+  # S3 Bucket
+  ImageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "cloud-assignment-image-bucket-rc4920"
+      NotificationConfiguration: 
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:*
+            Function: !GetAtt IndexPhotosLambdaFunction.Arn
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: False
+        BlockPublicPolicy: False
+        IgnorePublicAcls: False
+        RestrictPublicBuckets: False
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: 
+              - "*"
+            AllowedMethods: 
+              - "GET"
+            AllowedOrigins: 
+              - "*"
+
   # IAM Role for Lambda Functions
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -56,3 +107,5 @@ Outputs:
     Value: !GetAtt IndexPhotosLambdaFunction.Arn
   SearchPhotosLambdaFunction11Arn:
     Value: !GetAtt SearchPhotosLambdaFunction.Arn
+  PhotoBucketName:
+    Value: !Ref ImageBucket
