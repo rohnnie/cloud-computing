@@ -60,7 +60,6 @@ function getBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        // reader.onload = () => resolve(reader.result)
         reader.onload = () => {
             let encoded = reader.result.replace(/^data:(.*;base64,)?/, '');
             if (encoded.length % 4 > 0) {
@@ -73,7 +72,6 @@ function getBase64(file) {
 }
 
 function uploadPhoto() {
-    // var file = document.getElementById('file_path').files[0];
     console.log(file)
     const reader = new FileReader();
     var additionalParams = {};
@@ -97,7 +95,7 @@ function uploadPhoto() {
             .then(function (res) {
                 if (res.status == 200) {
                     document.getElementById('upload_button').innerHTML = 'Upload succeeded';
-                    document.getElementById('upload_button').style.backgroundColor = '#499C55';
+                    document.getElementById('upload_button').style.backgroundColor = '#3B4F95';
 
                 }
             }).catch(() => {
