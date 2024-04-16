@@ -8,4 +8,4 @@ phases:
   post_build:
     commands:
       - echo "Deploying frontend to S3..."
-      - aws s3 sync Frontend/ s3://as3photo --delete --exclude "buildspec.yml"
+      - aws s3 sync frontend/ s3://cloud-assignment-frontend-b1 --delete --exclude "buildspec.yml"

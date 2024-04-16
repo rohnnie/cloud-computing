@@ -3,6 +3,43 @@ Description: Cloud Assignment Photo Album Web Application Template
 
 Resources:
 
+  #Image S3 Bucket Policy
+  ImageBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ImageBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref ImageBucket
+                - /*
+            Principal: '*'
+
+  # S3 Bucket
+  ImageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "cloud-assignment-image-b2"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: False
+        BlockPublicPolicy: False
+        IgnorePublicAcls: False
+        RestrictPublicBuckets: False
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: 
+              - "*"
+            AllowedMethods: 
+              - "GET"
+            AllowedOrigins: 
+              - "*"
+
   #Frontend S3 Bucket Policy
   FrontendBucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -25,7 +62,7 @@ Resources:
   FrontendBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: "cloud-assignment-frontend-bucket-rc4920"
+      BucketName: "cloud-assignment-frontend-b1"
       PublicAccessBlockConfiguration:
         BlockPublicAcls: False
         BlockPublicPolicy: False
@@ -40,3 +77,5 @@ Outputs:
     Value: !Ref FrontendBucket
   FrontendBucketNameURL:
     Value: !GetAtt FrontendBucket.WebsiteURL
+  PhotoBucketName:
+    Value: !Ref ImageBucket

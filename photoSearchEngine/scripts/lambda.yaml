@@ -3,43 +3,6 @@ Description: Cloud Assignment Photo Album Web Application Template
 
 Resources:
 
-  #Image S3 Bucket Policy
-  ImageBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref ImageBucket
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Action:
-              - 's3:GetObject'
-            Effect: Allow
-            Resource: !Join
-              - ''
-              - - 'arn:aws:s3:::'
-                - !Ref ImageBucket
-                - /*
-            Principal: '*'
-
-  # S3 Bucket
-  ImageBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: "cloud-assignment-image-bucket-rc4920"
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: False
-        BlockPublicPolicy: False
-        IgnorePublicAcls: False
-        RestrictPublicBuckets: False
-      CorsConfiguration:
-        CorsRules:
-          - AllowedHeaders: 
-              - "*"
-            AllowedMethods: 
-              - "GET"
-            AllowedOrigins: 
-              - "*"
-
   # IAM Role for Lambda Functions
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -59,7 +22,7 @@ Resources:
             Version: '2012-10-17'
             Statement:
               - Effect: Allow
-                Action: ['logs:*', 'es:*', 's3:*', 'execute-api:*', 'secretsmanager:*', 'rekognition:*', 'lambda:*']
+                Action: ['logs:*', 'es:*', 's3:*', 'execute-api:*', 'secretsmanager:*', 'rekognition:*', 'lambda:*', 'lex:*']
                 Resource: '*'
 
   # Lambda Functions
@@ -68,7 +31,7 @@ Resources:
     Properties:
       Architectures: ['x86_64']
       Timeout: 60
-      FunctionName: "index-photos-test"
+      FunctionName: "index-photos"
       Runtime: "python3.12"
       Handler: "index-photos.lambda_handler"
       Code:
@@ -81,7 +44,7 @@ Resources:
     Properties:
       Architectures: ['x86_64']
       Timeout: 60
-      FunctionName: "search-photos-test"
+      FunctionName: "search-photos"
       Runtime: "python3.12"
       Handler: "search-photos.lambda_handler"
       Code:
@@ -90,9 +53,7 @@ Resources:
       Role: !GetAtt LambdaExecutionRole.Arn
 
 Outputs:
-  IndexPhotosLambdaFunctionArn:
-    Value: !GetAtt IndexPhotosLambdaFunction.Arn
   SearchPhotosLambdaFunction11Arn:
     Value: !GetAtt SearchPhotosLambdaFunction.Arn
-  PhotoBucketName:
-    Value: !Ref ImageBucket
+  IndexPhotosLambdaFunctionArn:
+    Value: !GetAtt IndexPhotosLambdaFunction.Arn
