@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-alertmanager
+  namespace: prometheus
+data:
+  alertmanager.yml: |
+    global:
+      resolve_timeout: 1m
+      slack_api_url: 'https://hooks.slack.com/services/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'
+    route:
+      receiver: 'slack-notifications'
+    receivers:
+    - name: 'slack-notifications'
+      slack_configs:
+      - channel: '#cloudalerts'
+        send_resolved: true
+        icon_url: https://avatars3.githubusercontent.com/u/3380462
+        title: |-
+          [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] Alert Name: {{ .CommonLabels.alertname }}
+          Severity: {{ .CommonLabels.severity }}
+        text: >-
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Details:*
+          {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+          {{ end }}
+          {{ end }}
