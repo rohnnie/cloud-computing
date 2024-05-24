@@ -7,9 +7,6 @@ This repository contains the implementation of a Dining Concierge chatbot, which
 
 <img width="753" alt="Screenshot 2024-02-23 at 9 24 28 PM" src="https://github.com/rohnnie/cloud-computing/assets/46161834/abf37af5-c3bc-4def-ad70-1ec542ecd866">
 
-
-## Assignment Overview
-
 ### Requirements
 1. Frontend Development: Build and deploy the frontend of the application using AWS S3.
 2. API Development: Setup the API using API Gateway and create Lambda functions to handle chat operations.
