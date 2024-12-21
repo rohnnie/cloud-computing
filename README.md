@@ -9,15 +9,17 @@ This repository contains an implementation of strace functionality in the xv6 op
 ### Modified/Added Files
 1. *defs.h* : Added system call and functions definitions.
 2. *exec.c* : Edited exec function to include proc field.
-3. *lapic.c* : 
-4. *kernel/syscall.c*: Added support for tracing specific system calls with various flags (-e, -s, -f) and combinations of these.
-5. *kernel/syscall.h*: Introduced new system call definitions for the tracing functionality.
-6. *user/sh.c*: Modified to parse and handle new tracing commands and flags for strace.
-7. *kernel/fs.c*: Altered the writei() function to suppress command output when strace is active, enabling cleaner tracing output.5.  *kernel/trap.h*: Global variable definitions.
-8. *Makefile*: Updated to include new dependencies for the custom tracing functionality.
-9. *sTest.c*: Trace child process implementation.
-10. *memoryleak.c*: Application of memory leak in xv6. 
-11. *memleak2.c*: Application of memory leak into file memleakfile.txt.
+3. *lapic.c* : Added lapicid function.
+4. *MAKEFILE* : Added necessary things in MAKEFILE.
+5. *params.h* : Added a new variable to store number maximum system calls to be stored in buffer.
+6. *kernel/syscall.c*: Added support for tracing specific system calls with various flags (-e, -s, -f) and combinations of these.
+7. *kernel/syscall.h*: Introduced new system call definitions for the tracing functionality.
+8. *user/sh.c*: Modified to parse and handle new tracing commands and flags for strace.
+9. *kernel/fs.c*: Altered the writei() function to suppress command output when strace is active, enabling cleaner tracing output.5.  *kernel/trap.h*: Global variable definitions.
+10. *Makefile*: Updated to include new dependencies for the custom tracing functionality.
+11. *sTest.c*: Trace child process implementation.
+12. *memoryleak.c*: Application of memory leak in xv6. 
+13. *memleak2.c*: Application of memory leak into file memleakfile.txt.
 ---
 
 ## How to Run the Program
